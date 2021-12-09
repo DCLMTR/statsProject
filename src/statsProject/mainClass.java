@@ -177,7 +177,6 @@ public class mainClass implements KeyListener, ActionListener {
 		panel.add(randomD);
 		panel.add(guessD);
 		panel.add(numLabel);
-		panel.addKeyListener(this);
 		frame.add(panel);
 		frame.pack();
 		frame.setSize(500, 150);
@@ -198,9 +197,6 @@ public class mainClass implements KeyListener, ActionListener {
 					current = 0;
 				}
 			}
-		}
-		if(currentState == 6) {
-			currentState = 0;
 		}
 	}
 
