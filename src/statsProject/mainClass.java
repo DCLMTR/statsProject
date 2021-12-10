@@ -23,6 +23,7 @@ public class mainClass implements KeyListener, ActionListener {
 	JButton selectFour;
 	JButton selectSix;
 	JButton selectAll;
+	JButton start;
 	JButton Enter;
 	JLabel values;
 	JLabel randomD;
@@ -33,7 +34,7 @@ public class mainClass implements KeyListener, ActionListener {
 	Timer z;
 	int current = 1;
 	int currentState = 0;
-	int currentScreen = 0;
+	int currentScreen = -1;
 	int[] random;
 	int testSize;
 
@@ -45,7 +46,7 @@ public class mainClass implements KeyListener, ActionListener {
 		numRight = 0;
 		current = 1;
 		currentState = 0;
-		currentScreen = 0;
+		currentScreen = -1;
 		random = setRandom();
 		frame = new JFrame();
 		frame.setVisible(true);
@@ -81,29 +82,41 @@ public class mainClass implements KeyListener, ActionListener {
 	public void conductExperiment(int testSize, int screen) {
 		this.testSize = testSize;
 		Font font = new Font("Arial", Font.BOLD, 40);
-		if (testSize * screen >= 12) {
-			z.stop();
-			currentState++;
+		if (screen == -1) {
+			panel.removeAll();
+			frame.remove(panel);
+			start = new JButton();
+			panel.add(start);
+			start.addActionListener(this);
+			start.setText("START");
+			frame.add(panel);
+			frame.pack();
+			frame.setSize(500, 150);
 		} else {
-			if (screen == 0) {
-				panel.removeAll();
-				frame.remove(panel);
-				z = new Timer(1000 * testSize / 12, this);
-				z.start();
-				values = new JLabel();
-				values.setFont(font);
-				for (int i = 0; i < testSize; i++) {
-					values.setText(values.getText() + random[i]);
-				}
-				panel.add(values);
-				frame.add(panel);
-				frame.pack();
-				frame.setSize(500, 150);
+			if (testSize * screen >= 12) {
+				z.stop();
+				currentState++;
 			} else {
-				values.setText("");
-				values.setFont(font);
-				for (int i = testSize * screen; i < testSize * screen + testSize; i++) {
-					values.setText(values.getText() + random[i]);
+				if (screen == 0) {
+					panel.removeAll();
+					frame.remove(panel);
+					z = new Timer(12000 * testSize / 12, this);
+					z.start();
+					values = new JLabel();
+					values.setFont(font);
+					for (int i = 0; i < testSize; i++) {
+						values.setText(values.getText() + random[i]);
+					}
+					panel.add(values);
+					frame.add(panel);
+					frame.pack();
+					frame.setSize(500, 150);
+				} else {
+					values.setText("");
+					values.setFont(font);
+					for (int i = testSize * screen; i < testSize * screen + testSize; i++) {
+						values.setText(values.getText() + random[i]);
+					}
 				}
 			}
 		}
@@ -221,6 +234,10 @@ public class mainClass implements KeyListener, ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == start && currentScreen == -1) {
+			currentScreen = 0;
+			conductExperiment(testSize, currentScreen);
+		}
 		// TODO Auto-generated method stub
 		if (currentState == 0) {
 			selectTest();
