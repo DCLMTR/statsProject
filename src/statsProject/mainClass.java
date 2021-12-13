@@ -199,16 +199,22 @@ public class mainClass implements KeyListener, ActionListener {
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if (currentState == 4) {
-			if (textArray[getCurrentFocus(textArray)].getText().length() >= 1) {
-				e.consume();
-			}
-			if (current < 12) {
-				textArray[current].grabFocus();
-				if (current < 11) {
-					current++;
-				} else {
-					current = 0;
+			if (e.getKeyChar() != 8) {
+				System.out.println(e.getKeyChar());
+				if (textArray[getCurrentFocus(textArray)].getText().length() >= 1) {
+					if (current < 12) {
+						textArray[current].grabFocus();
+						textArray[current].setText(e.getKeyChar() + "");
+						
+						if (current < 11) {
+							current++;
+						} else {
+							current = 0;
+						}
+					}
+					e.consume();
 				}
+				
 			}
 		}
 	}
