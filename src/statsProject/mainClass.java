@@ -173,10 +173,13 @@ public class mainClass implements KeyListener, ActionListener {
 		guessD = new JLabel();
 		guessD.setText("Your Guess: ");
 		for (int i = 0; i < 12; i++) {
+			textArray[i].setText(textArray[i].getText().replaceAll("[^0123456789]", ""));
+			System.out.println(textArray[i].getText());
 			if (textArray[i].getText().length() == 0) {
 				textArray[i].setText("10");
 				guessD.setText(guessD.getText() + " []");
-			} else {
+			}
+		else {
 				guessD.setText(guessD.getText() + " " + textArray[i].getText());
 			}
 		}
