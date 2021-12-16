@@ -202,6 +202,14 @@ public class mainClass implements KeyListener, ActionListener {
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if (currentState == 4) {
+			for(int i = 0; i < textArray.length; i++) {
+				if(textArray[i].hasFocus()) {
+					current = i+1;
+				}
+				if(current > 11) {
+					current= 0;
+				}
+			}
 			if (e.getKeyChar() != 8) {
 				System.out.println(e.getKeyChar());
 				if (textArray[getCurrentFocus(textArray)].getText().length() >= 1) {
